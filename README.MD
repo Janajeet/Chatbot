@@ -1,4 +1,4 @@
-<center>Chatbot Application</center>
+<center>Chatbot Application : </center>
 <center><i>This is a simple chatbot application developed using Swings and URLConnection class. It also uses a JSONObject and reads inputs from a custom managed Bard API.</i></center>
 
 ### <u>Features</u>

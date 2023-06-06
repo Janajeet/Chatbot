@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.*;
+
 
 import static java.lang.System.out;
 
@@ -78,10 +80,25 @@ class GUI extends JFrame{
                 messageArea.append("Me : "+usermsg+"\n");
 
                 try {
-                    messageArea.append("Bard : "+ ob.post1(usermsg)+"\n");
-                    messageArea.append("Bard : What else can I do for you?\n");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chatbot","Janajeet","@Janajeet.bose14");
+                    PreparedStatement stmt = con.prepareStatement("select reply from responses where query = ? ");
+                    stmt.setString(1,usermsg);
+                    ResultSet rs=stmt.executeQuery();
+                    if(!rs.next()) {
+                        String reply = ob.post1(usermsg);
+                        messageArea.append("Bard : " + reply + "\n");
+                        messageArea.append("Bard : What else can I do for you?\n");
+                        stmt = con.prepareStatement("insert into responses(query,reply) values(?,?) ");
+                        stmt.setString(1,usermsg);
+                        stmt.setString(2,reply);
+                        stmt.executeQuery();
+                    }
+                    else{
+                        messageArea.append("Bard : "+ rs.getString(1)+"\n");
+                        messageArea.append("Bard : What else can I do for you?\n");
+                    }
                 } catch (Exception ex) {
-                    messageArea.append("Something Went wrong, please try again later. Can I help you with something else?\n");
+                    messageArea.append("Something is wrong with me. Please try again.\n");
                 }
 
                 out.flush();

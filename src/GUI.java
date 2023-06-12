@@ -80,7 +80,7 @@ class GUI extends JFrame{
                 messageArea.append("Me : "+usermsg+"\n");
 
                 try {
-                    Connection con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/chatbot","Janajeet","@Janajeet.bose14");
+                    Connection con = DriverManager.getConnection("url","username","password");
                     PreparedStatement stmt = con.prepareStatement("select reply from responses where query = ? ");
                     stmt.setString(1,usermsg);
                     ResultSet rs=stmt.executeQuery();
